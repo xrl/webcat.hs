@@ -1,3 +1,6 @@
 module Factor where
+import Item
 
-secret = "blah"
+data Factor = Factor [Item] deriving (Show)
+
+secret = "blah\n"
