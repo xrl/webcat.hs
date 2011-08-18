@@ -1,17 +1,18 @@
 name:             webcat
-Build-Type:       Simple
-Version:          0.0.1
-Cabal-Version:    >= 1.10
-License:          AllRightsReserved
-License-File:     LICENSE
-Author:           Xavier Lange, Rense Lange
-Homepage:         http://www.tureus.com/
-Category:         Computation
-Synopsis:         A Rasch scaling library for psycometric items
+build-type:       Simple
+version:          0.0.1
+cabal-version:    >= 1.10
+license:          AllRightsReserved
+license-file:     LICENSE
+author:           Xavier Lange, Rense Lange
+homepage:         http://www.tureus.com/
+category:         Computation
+synopsis:         A Rasch scaling library for psycometric items
 
-Executable kitty
-  Default-Language: Haskell2010
-  Main-Is:          Main.hs
+executable kitty
+  build-depends:    base
+  default-language: Haskell2010
+  main-is:          Main.hs
 
 -- Library
 --  Build-Depends: base
