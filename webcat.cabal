@@ -14,6 +14,12 @@ executable kitty
   default-language: Haskell2010
   main-is:          Main.hs
 
+library
+  build-depends:    base
+  default-language: Haskell2010
+  exposed-modules:
+    Factor
+
 -- Library
 --  Build-Depends: base
 --  Exposed-modules:

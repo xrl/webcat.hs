@@ -1,6 +1,7 @@
 import Prelude
+import Factor
+
 
 main :: IO ()
 main = do
-       c <- getChar
-       putChar c
+       putStr secret
