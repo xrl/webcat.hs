@@ -3,8 +3,10 @@ Hey hey! My first Haskell package!
 This thing will let you build all of the webcat-related code in one easy to use nugget.
 
   runhaskell Setup configure --with-compiler=ghc-6.4.2 --user
+  # I think this is a suitable alternative
+  cabal configure
 
-And then you want to build the package
+And then you want to build the package. Do this every time you make changes.
 
   cabal build
 
