@@ -1,5 +1,6 @@
 module Item (
-  Item(..)
+  Item(..),
+  itemScoreVar
 ) where
 import Data.List
 
@@ -30,7 +31,8 @@ itemRatingProb item@Item{steps=s, loc=il} atloc rating
       | length(s) < 2                         = 0.0
       | otherwise                             = top / bottom
       where csteps                            = cumsteps item
-            useful_csteps                     = (init . tail) (csteps)  -- (init . tail [0,1,4]) -> [1]
+            -- (init . tail [0,1,4]) -> [1]
+            useful_csteps                     = (init . tail) (csteps)
             d                                 = atloc - il
             top                               = exp(fromIntegral(rating)*d - (csteps !! rating))
             bottom                            = accWeightExp 0 useful_csteps

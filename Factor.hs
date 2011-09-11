@@ -2,15 +2,12 @@ module Factor(
 	Factor(..),
 	FactorSession(..),
 	factorEstimate,
-	secret
+	Item(..)
 ) where
 import Item
 
-secret = "HI"
-
 data Factor = Factor {
 	items    :: [Item],
-	startloc :: Float,
 	starters :: [Item]
 } deriving (Show)
 
