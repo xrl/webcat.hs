@@ -1,41 +1,32 @@
-module Item (
-  Item(..),
-  itemScoreVar
+module RenseItem (
+  Item(..)
 ) where
 import Data.List
 
-data Item = Item { steps   :: [Float],
-                   loc     :: Float
+data Item = Item { steps   :: [Double],
+                   loc     :: Double
                  } deriving (Show)
 
-cumsteps Item{steps = s} = [0.0]  ++ (scanl1 (+) (init . tail $ s)) ++ [0.0]
+itemProb item@Item{steps=s, loc=l} atloc rating
+      | length(s) < 2 = 0.0
+      | otherwise     = top / (bottom + extra)
+      where top = exp(fromIntegral(rating) * d - cstep)
+            bottom = 1.0 + exp(fromIntegral(nsteps1) * d)
+            d = atloc - l
+            csteps = cumsteps s
+            cstep = csteps !! rating
+            nsteps1 = fromIntegral(length(s)-1)
+            extra = sum [exp(fromIntegral(h)*d - cp) | h <- [1..(nsteps1-1)], let cp = (csteps !! h)] 
 
-itemResId item@Item{steps=s} atloc rating
-      | length(s) < 2 = (0.0,0.0)
-      | otherwise     = (res, res/sqrt(var))
-      where (expected,var) = itemScoreVar item atloc
-            res            = rating - expected
+-- DRAGONS
+cumsteps steps = snd $ mapAccumL (\acc x -> (acc+x,acc+x)) 0 steps
 
-itemScoreVar item@Item{steps=s} atloc
-      | length(s) < 2                         = (0.0,0.0)
-      | otherwise                             = (expected,variance-expected**2)
-      where solution       = 3
-            indexes        = [1..(length(s)-2)]
-            xs             = [1.0..]
-            probs          = [itemRatingProb item atloc rating | rating <- indexes]
-            ts             = zipWith (*) xs probs
-            expected       = sum $ zipWith (+) xs ts
-            variance       = sum $ zipWith (+) xs (zipWith (*) ts xs)
+itemMeanVar item@Item{steps=s} atloc = (sum expected,sum variance - (sum expected)**2)
+      where xs             = [1.0..]
+            probs          = [itemProb item atloc rating | rating <- [1..(length(s)-1)]]
+            expected       = zipWith (*) xs probs
+            variance       = zipWith (*) expected xs
 
-itemRatingProb item@Item{steps=s, loc=il} atloc rating
-      | length(s) < 2                         = 0.0
-      | otherwise                             = top / bottom
-      where csteps                            = cumsteps item
-            -- (init . tail [0,1,4]) -> [1]
-            useful_csteps                     = (init . tail) (csteps)
-            d                                 = atloc - il
-            top                               = exp(fromIntegral(rating)*d - (csteps !! rating))
-            bottom                            = accWeightExp 0 useful_csteps
-            numsteps                          = length(s)-1
-            accWeightExp index []             = 1.0 + exp(fromIntegral(numsteps)*d)
-            accWeightExp index (cstep:csteps) = exp(fromIntegral(index)*d+cstep) + (accWeightExp (index+1) csteps)
+--item1 = Item [0.0,-1.0,1.0] 1.0
+--itemMeanVar item1 1.0 == (0.5950684074995565,0.36771987456157346)
+--itemMeanVar item1 0.0 == (1.0,0.4238831152341711)
