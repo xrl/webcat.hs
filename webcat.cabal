@@ -18,7 +18,8 @@ library
   build-depends:    base
   default-language: Haskell2010
   exposed-modules:
-    Factor
+    Webcat.Factor
+    Webcat.Item
 
 -- Library
 --  Build-Depends: base
