@@ -7,7 +7,7 @@ license-file:     LICENSE
 author:           Xavier Lange, Rense Lange
 homepage:         http://www.tureus.com/
 category:         Computation
-synopsis:         A Rasch scaling library for psycometric items
+synopsis:         A Rasch scaling library for psychometric items
 
 executable kitty
   build-depends:    base
